@@ -1,0 +1,58 @@
+<p>home works!</p>
+<!--début Interpolation---------------------->
+<h1>Interpolation: {{VAR1}}</h1>
+<h1>Interpolation: {{getDateTime()}}</h1>
+<h1>Interpolation: Le résultat est {{ isTrue ? 'Vrai' : 'Faux' }}</h1>
+
+<h1>Interpolation: 
+    <ul> <!-- ou <ol> ordonné contraire de <ul> no ordonné  -->
+    <li *ngFor="let item of items; let i = index">{{ i }} - {{ item }}</li>
+   </ul> 
+</h1>
+<!--fin Interpolation-->
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+<!--début property banding---------------------->
+<h1>property banding: <img style="width: 200px;" [src]="imgsrc" [alt]="imgAlt"> </h1>
+
+<h1>property banding: <button type="button" [disabled]="isAvailable">Send</button> </h1>
+
+<h1>property banding: <div [style.backgroundColor]="color">Categorie : {{ categorie }} </div></h1>
+
+<h1 >property banding:<div [innerHTML]="nameDetails"> </div></h1>
+<br>
+<!--fin property banding-->
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+<!--début event banding---------------------->
+<h1>event banding: <button (click)="FunctionOnButtonClick()">Click Me</button> </h1>
+<!--fin event banding-->
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+<!--début Two way binding--> <!--il est nécessaire d'importer le module FormsModule dans le module principal de l'application-->
+<h1>Two way binding: <input [(ngModel)]="VAR3" type="text"></h1>
+<h1>bonjour {{VAR3}}</h1>
+<!--fin Two way binding-->
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+<!--début Les directives structurelles-->
+<h1 *ngIf="VAR3 ; else f1">bonsoir</h1>
+<ng-template #f1><h1>bonjour</h1></ng-template>
+
+
+<ul *ngFor = "let e of listResidences, let i=index">
+    <li><h1>{{i}}*{{e.name | uppercase}}</h1></li>
+    <ul [ngSwitch]="e.status" >
+        <li *ngSwitchCase="'Disponible'" style ="color:green">Disponible</li>
+        <li *ngSwitchCase="'En Construction'" style ="color:yellow">En Construction</li>
+        <li *ngSwitchCase="'Vendu'" style ="color:red">Vendu</li>
+    </ul>
+    <button (click)="Function2(e)">Show Location</button>
+</ul>
+<!--fin Les directives structurelles-->
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
