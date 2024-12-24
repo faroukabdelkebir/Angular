@@ -1,63 +1,70 @@
-<div class="container p-4 border rounded bg-light">
-  <h2 class="text-center mb-4">Add New Residence</h2>
-  <form [formGroup]="residenceForm" (ngSubmit)="onSubmit()">
-    <input type="hidden" formControlName="id" />
+<div class="container">
 
-    <div class="mb-3">
-      <label for="name" class="form-label">Name</label>
-      <input type="text" id="name" class="form-control" formControlName="name" />
-      <div *ngIf="residenceForm.get('name')?.invalid && residenceForm.get('name')?.touched" class="text-danger">
-        <small *ngIf="residenceForm.get('name')?.hasError('required')">Name is required.</small>
-        <small *ngIf="residenceForm.get('name')?.hasError('minlength')">Minimum 3 characters.</small>
-      </div>
-    </div>
-
-    <div class="mb-3">
-      <label for="address" class="form-label">Address</label>
-      <input type="text" id="address" class="form-control" formControlName="address" />
-      <div *ngIf="residenceForm.get('address')?.invalid && residenceForm.get('address')?.touched" class="text-danger">
-        <small>Address is required.</small>
-      </div>
-    </div>
-
-    <div class="mb-3">
-      <label for="image" class="form-label">Image URL</label>
-      <input type="text" id="image" class="form-control" formControlName="image" />
-      <div *ngIf="residenceForm.get('image')?.invalid && residenceForm.get('image')?.touched" class="text-danger">
-        <small *ngIf="residenceForm.get('image')?.hasError('required')">Image URL is required.</small>
-        <small *ngIf="residenceForm.get('image')?.hasError('pattern')">Invalid URL format.</small>
-      </div>
-    </div>
-
-    <div class="mb-3">
-      <label for="status" class="form-label">Status</label>
-      <select id="status" class="form-select" formControlName="status">
-        <option value="Disponible">Disponible</option>
-        <option value="En Construction">En Construction</option>
-        <option value="Vendu">Vendu</option>
-      </select>
-    </div>
-
-    <!-- Appartements -->
-    <div formArrayName="apartments">
-      <div *ngFor="let apartment of apartments.controls; let i = index" [formGroupName]="i" class="mb-4 p-3 border rounded">
-        <h4>Apartment {{ i + 1 }}</h4>
-        <div class="row mb-3">
-          <label class="col-sm-3 col-form-label">Apartment Number</label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" formControlName="apartNum" />
+  <form [formGroup]="addResidenceForm" (ngSubmit)="addR()">
+    <div class="row mb-3">
+      <label for="name" class="col-sm-2 col-form-label">Name: </label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="name" id="name" formControlName="name" />
+        <div *ngIf="name?.touched && name?.invalid" class=" alert text-danger">
+          <div *ngIf="name?.errors?.['required']">
+            Required field
           </div>
         </div>
-        <!-- Ajoutez d'autres champs d'appartement ici -->
-        <button type="button" class="btn btn-danger" (click)="removeApartment(i)">Remove</button>
       </div>
-      <button type="button" class="btn btn-success mt-3" (click)="addApartment()">Add Apartment</button>
     </div>
 
-    <div class="text-center mt-4">
-      <button type="submit" class="btn btn-primary me-2" [disabled]="residenceForm.invalid">Submit</button>
-      <button type="button" class="btn btn-secondary" (click)="onReset()">Reset</button>
+    <div class="row mb-3">
+      <label for="address" class="col-sm-2 col-form-label">Address: </label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="address" id="address" formControlName="address" />
+        <div *ngIf="address!.touched && address!.invalid" class="alert text-danger">
+          Required field
+        </div>
+      </div>
     </div>
+    <div class="row mb-3">
+      <label for="image" class="col-sm-2 col-form-label">Image: </label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="image" id="image" formControlName="image" />
+        <div *ngIf="image!.touched && image!.invalid" class="alert text-danger">
+          Required field
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label for="status" class="col-sm-2 col-form-label"> Status: </label>
+      <div class="col-sm-10">
+        <div class="form-check">
+          <input type="radio" class="form-check-input" name="status" formControlName="status" id="status"
+            value="Disponible" />
+          <label class="form-check-label" for="status">
+            Disponible
+          </label>
+        </div>
+        <div class="form-check">
+          <input type="radio" class="form-check-input" name="status" formControlName="status" id="status"
+            value="En Construction" />
+          <label class="form-check-label" for="status">
+            En Construction
+          </label>
+        </div>
+        <div class="form-check">
+          <input type="radio" class="form-check-input" name="status" formControlName="status" id="status"
+            value="Vendu" />
+          <label class="form-check-label" for="status">
+            Vendu
+          </label>
+        </div>
+        <div *ngIf="status!.touched && status!.invalid" class="alert text-danger">
+          Required field
+        </div>
+      </div>
+    </div>
+
+    <button  type="submit" class="btn btn-outline-primary">Add</button>
+
   </form>
-</div>
 
+
+</div>

@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Residence } from 'src/app/core/models/residence';
+import { ResidenceService } from 'src/app/core/service/residence.service';
 
 @Component({
   selector: 'app-add-residence-component',
@@ -8,67 +11,53 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class AddResidenceComponentComponent {
 
-  residenceForm: FormGroup;
-
-  constructor(private fb: FormBuilder) {
-    this.residenceForm = this.fb.group({
-      id: [''],
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      address: ['', Validators.required],
-      image: ['', [Validators.required, Validators.pattern('(https?:\\/\\/.*\\.(?:png|jpg|jpeg))')]],
-      status: ['Disponible', Validators.required],
-      apartments: this.fb.array([])
-    });
-  }
+  listResidences: Residence[] = [];
 
 
-  get apartments(): FormArray {
-    return this.residenceForm.get('apartments') as FormArray;
-  }
+
+  constructor(private fb: FormBuilder, private r: Router, private residenceService: ResidenceService) { }
+
+  addResidenceForm = this.fb.group({
+
+    name: ['', [Validators.required, Validators.minLength(3)]],
+
+    address: ['', Validators.required],
+
+    image: ['', Validators.required],
+
+    status: ['', Validators.required],
+
+    Apartments: this.fb.array([])
+
+  });
 
 
-  addApartment() {
-    const apartmentGroup = this.fb.group({
-      apartNum: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-      floorNum: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-      surface: ['', Validators.required],
-      terrace: ['yes', Validators.required],
-      surfaceTerrace: [{ value: '', disabled: true }, Validators.pattern('^[0-9]+$')],
-      category: ['S+1', Validators.required],
-      residence: ['']
-    });
 
-    
-    apartmentGroup.get('terrace')?.valueChanges.subscribe((value) => {
-      const surfaceControl = apartmentGroup.get('surfaceTerrace');
-      if (value === 'yes') {
-        surfaceControl?.enable();
-      } else {
-        surfaceControl?.disable();
-        surfaceControl?.reset();
+
+
+  get name() { return this.addResidenceForm.get('name'); }
+
+  get address() { return this.addResidenceForm.get('address'); }
+
+  get image() { return this.addResidenceForm.get('image'); }
+
+  get status() { return this.addResidenceForm.get('status'); }
+
+  get Apartments() { return this.addResidenceForm.get('Apartments') as FormArray; }
+
+addR(){
+  let newResidence: Residence = {
+    id: 4,
+    name: this.addResidenceForm.value.name || '',
+    address: this.addResidenceForm.value.address || '',
+    image: this.addResidenceForm.value.image || '',
+    status: this.addResidenceForm.value.status || ''}
+    this.residenceService.addResidence(newResidence).subscribe(
+      (data)=>{
+       alert('residence added')
+        this.r.navigate(['/residence'])
       }
-    });
+    )
+}
 
-    this.apartments.push(apartmentGroup);
-  }
-
-
-  removeApartment(index: number) {
-    this.apartments.removeAt(index);
-  }
-
-
-  onSubmit() {
-    if (this.residenceForm.valid) {
-      console.log('Résidence et appartements:', this.residenceForm.value);
-    }
-  }
-
-
-  onReset() {
-    this.residenceForm.reset({
-      status: 'Disponible'
-    });
-    this.apartments.clear();
-  }
 }

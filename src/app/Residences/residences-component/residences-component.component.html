@@ -16,6 +16,11 @@
           <div> <button (click)="showLocation(residence)" class="btn btn-primary">Show Location</button>
           <span *ngIf="visiblity && residence.name===vv "> {{residence.address}}</span></div>
            <button class="btn btn-danger">Like</button>
+
+            <p>{{ residence.name }} - {{ residence.address }}</p>
+            <button (click)="deleteResidence(residence.id)">Supprimer</button>
+          
+
         </div>
       <!-- </ng-container> -->
 
